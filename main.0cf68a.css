@@ -2079,6 +2079,7 @@ pre .css ~ * .id, pre .id {
 }
 
 .article-inner {
+  box-shadow: 2px 2px 12px #989696;
   border-color: #d1d1d1
 }
 
