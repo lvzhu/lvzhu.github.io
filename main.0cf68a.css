@@ -2143,7 +2143,9 @@ pre .css ~ * .id, pre .id {
 }
 
 .article-entry p {
-  margin-top: 10px
+  margin-top: 10px;
+  font-size: 14px;
+  color: #6d6c6c;
 }
 
 .article-entry li code, .article-entry p code {
