@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017/12 | xioaxiao&#39;s blog</title>
+  <title>myUtils | xioaxiao&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="xioaxiao&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/archives/2017/12/index.html">
+  <meta name="description" content="作为战斗在业务一线的前端，要想少加班，就要想办法提高工作效率。这里提一个小点，我们在业务开发过程中，经常会重复用到 日期格式化、 url参数转对象、 浏览器类型判断、 节流函数等一类函数，这些工具类函数，基本上在每个项目都会用到，为避免不同项目多次复制粘贴的麻烦，做一总结：">
+<meta name="keywords" content="前端小记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="myUtils">
+<meta property="og:url" content="http://yoursite.com/2017/12/18/前端积累/index.html">
 <meta property="og:site_name" content="xioaxiao&#39;s blog">
+<meta property="og:description" content="作为战斗在业务一线的前端，要想少加班，就要想办法提高工作效率。这里提一个小点，我们在业务开发过程中，经常会重复用到 日期格式化、 url参数转对象、 浏览器类型判断、 节流函数等一类函数，这些工具类函数，基本上在每个项目都会用到，为避免不同项目多次复制粘贴的麻烦，做一总结：">
+<meta property="og:updated_time" content="2017-12-18T08:11:52.344Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xioaxiao&#39;s blog">
+<meta name="twitter:title" content="myUtils">
+<meta name="twitter:description" content="作为战斗在业务一线的前端，要想少加班，就要想办法提高工作效率。这里提一个小点，我们在业务开发过程中，经常会重复用到 日期格式化、 url参数转对象、 浏览器类型判断、 节流函数等一类函数，这些工具类函数，基本上在每个项目都会用到，为避免不同项目多次复制粘贴的麻烦，做一总结：">
   
     <link rel="alternative" href="/atom.xml" title="xioaxiao&#39;s blog" type="application/atom+xml">
   
@@ -135,36 +140,318 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-前端积累" class="article article-type-post "
+  itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/18/前端积累/" class="archive-article-date">
-  	<time datetime="2017-12-18T07:32:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-18</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/18/前端积累/">myUtils</a>
+    <h1 class="article-title" itemprop="name">
+      myUtils
     </h1>
   
 
-        <div class="article-info info-on-right">
           
+            <a href="/2017/12/18/前端积累/" class="archive-article-date">
+  	<time datetime="2017-12-18T07:32:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-18</time>
+</a>
+              
+      </header>
+      
+        <div class="article-entry" itemprop="articleBody">
+          
+                    <p>   作为战斗在业务一线的前端，要想少加班，就要想办法提高工作效率。这里提一个小点，我们在业务开发过程中，经常会重复用到 日期格式化、 url参数转对象、 浏览器类型判断、 节流函数等一类函数，这些工具类函数，基本上在每个项目都会用到，为避免不同项目多次复制粘贴的麻烦，做一总结：<br>   <a id="more"></a><br>   var utils = {<br>        //ajax请求封装<br>        ajax: {<br>            /**</p>
+<pre><code>         * post请求
+         * @param  {[string]} url      [请求接口地址]
+         * @param  {[object]} data     [请求参数]
+         * @param  {[function]} handler  [处理句柄]
+         * @param  {[string]} dataType [交互数据类型]
+         * @param  {[string]} async  [同步异步]
+         * @return {[Deferd]}          [Deferd对象]
+         */
+        ajaxPost: function (url, data, handler, dataType, async) {
+            var dtd = $.Deferred(),
+                data;
+            $.ajax({
+                url: url,
+                data: data || {},
+                type: &apos;POST&apos;,
+                cache: false,
+                async: async == undefined ? true : false,
+                dataType: dataType || &apos;json&apos;
+            }).done(function (data) {
+                data = handler ? handler(data) : data;
+                dtd.resolve(data);
+            }).fail(function () {
+                dtd.reject(data);
+            });
+            return dtd.promise();
+        },
+        /**
+         * get请求
+         * @param  {[string]} url      [请求接口地址]
+         * @param  {[object]} data     [请求参数]
+         * @param  {[function]} handler  [处理句柄]
+         * @param  {[string]} dataType [交互数据类型]
+         * @param  {[string]} async  [同步异步]
+         * @return {[Deferd]}          [Deferd对象]
+         */
+        ajaxGet: function (url, data, handler, dataType, async) {
+            var dtd = $.Deferred(),
+                data;
+            $.ajax({
+                url: url,
+                data: data || {},
+                type: &apos;GET&apos;,
+                cache: false,
+                async: async === undefined ? true : false,
+                dataType: dataType || &apos;json&apos;
+            }).done(function (data) {
+                data = handler ? handler(data) : data;
+                dtd.resolve(data);
+            }).fail(function () {
+                dtd.reject(data);
+            });
+            return dtd.promise();
+        }
+    },
+    /**
+     * 系统提示框
+     * @param  {[string]} content [提示内容]
+     * @param  {[number]} time    [提示时间]
+     * @return {[object]}         [提示框]
+     */
+    systemTips: function (content, time, top) {
+        return window.top.art.dialog({
+            id: &apos;Tips&apos;,
+            title: false,
+            cancel: false,
+            lock: true,
+            esc: false,
+            fixed: true,
+            padding: 0,
+            x: &apos;center&apos;,
+            top: top || &apos;40%&apos;,
+            opacity: 0.2,
+            background: &apos;#000&apos;
+        })
+            .content(&apos;&lt;div class=&quot;common-tips&quot;&gt;&lt;p class=&quot;common-tips-text&quot;&gt;&apos; + content + &apos;&lt;/p&gt;&lt;/div&gt;&apos;).time(time || 1);
+        ;
+    },
+    /**
+     * [confirmDialog 确认框]
+     * @param  {[String]} content   [提示内容]
+     * @param  {[Function]} okFun     [确认事件]
+     * @param  {[Function]} cancleFun [取消事件]
+     * @return {[type]}           [description]
+     */
+    confirmDialog: function (content, okFun, cancleFun, okVal, cancleVal) {
+        $.dialog({
+            title: &apos;提示&apos;,
+            content: content,
+            width: &apos;300&apos;,
+            height: &apos;150&apos;,
+            okVal: okVal || &apos;确定&apos;,
+            cancleVal: cancleVal || &apos;取消&apos;,
+            ok: function () {
+                if (typeof okFun === &apos;function&apos;) {
+                    okFun();
+                }
+            },
+            cancle: function () {
+                if (typeof cancleFun === &apos;function&apos;) {
+                    cancleFun();
+                }
+            }
+        })
+    },
+
+    /**
+     * 获取url参数值
+     * @param  {[type]} name [description]
+     * @return {[type]}      [description]
+     */
+    getUrlParam: function (name) {
+        var reg = new RegExp(&apos;(^|&amp;)&apos; + name + &apos;=([^&amp;]*)(&amp;|$)&apos;), //构造一个含有目标参数的正则表达式对象
+            r = window.location.search.substr(1).match(reg); //匹配目标参数
+        if (r != null) {
+            return decodeURIComponent(r[2]);
+        }
+        return null;
+    },
+    /**
+     *空判断
+     */
+    isEmpty: function (str) {
+        if (str == &quot;&quot; || str == null || str == undefined) return true;
+        return false;
+    },
+    /**
+    * @desc 判断两个数组是否相等
+    * @param {Array} arr1 
+    * @param {Array} arr2 
+    * @return {Boolean}
+    */
+    function arrayEqual(arr1, arr2) {
+        if (arr1 === arr2) return true;
+        if (arr1.length != arr2.length) return false;
+        for (var i = 0; i &lt; arr1.length; ++i) {
+            if (arr1[i] !== arr2[i]) return false;
+        }
+        return true;
+    },
+
+    /**
+     * [calcFrameHeight 计算iframe高度]
+     * @return {[String]} [最小高度]
+     */
+    calcFrameHeight: function () {
+        var parent = window.parent,
+            height =parent.document.body.clientHeight - parent.$(&apos;#headerWarp&apos;).height() - parent.$(&apos;#copyRight&apos;).height();
+        parent.$(&apos;#iframeWrap&apos;).height(height);
+        parent.$(&apos;#menuWrap&apos;).height(height - 16);
+    },
+    /**
+     * commonPagination 分页
+     * @param $el 分页元素
+     * @param total 总数据条数
+     * @param pageIndex 分页索引
+     * @param pageSize 分页大小
+     * @param callback 回调
+     */
+    commonPagination: function ($el, total, pageIndex, pageSize, callback) {
+        $el.hide();
+        if (total) {
+            $el.show();
+            $el.pagination(total, {
+                callback: callback,
+                prev_text: &apos;上一页&apos;,
+                next_text: &apos;下一页&apos;,
+                items_per_page: pageSize,
+                num_display_entries: 4,
+                current_page: pageIndex - 1,
+                num_edge_entries: 1,
+                link_to: &apos;javaScript:void(null)&apos;,
+                show_goto_btn: true,
+                load_first_page: false
+            });
+        }
+    },
+    /**
+     * bindClickEvent 点击其他地方下拉框隐藏
+     * @return  null
+     */
+    bindClickEvent: function () {
+        $(document).click(function (event) {
+            var target = event.target || event.srcElement;
+            if (((target.parentNode || &apos;&apos;).className || &apos;&apos;).indexOf(&apos;dropdown-container&apos;) === -1 &amp;&amp; target.className !== &apos;dropdown-label&apos;) {
+                $(&apos;.dropdown-wrap&apos;).hide();
+            }
+        })
+    },
+    /**
+    * @desc 生成指定范围随机数
+    * @param  {Number} min 
+    * @param  {Number} max 
+    * @return {Number} 
+    */
+    function randomNum(min, max) {
+        return Math.floor(min + Math.random() * (max - min));
+    },
+    /**
+    * @desc 随机生成颜色
+    * @return {String} 
+    */
+    function randomColor() {
+        return &apos;#&apos; + (&apos;00000&apos; + (Math.random() * 0x1000000 &lt;&lt; 0).toString(16)).slice(-6);
+    },
+    /**
+    * @desc  判断是否为身份证号
+    * @param  {String|Number} str 
+    * @return {Boolean}
+    */
+    function isIdCard(str) {
+        return /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/.test(str)
+    },
+    /**
+    * @desc   判断是否为手机号
+    * @param  {String|Number} str 
+    * @return {Boolean} 
+    */
+    function isPhoneNum(str) {
+        return /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/.test(str)
+    },
+    /**
+    * @desc   url参数转对象
+    * @param  {String} url  default: window.location.href
+    * @return {Object} 
+    */
+    function parseQueryString(url) {
+        url = url == null ? window.location.href : url
+        var search = url.substring(url.lastIndexOf(&apos;?&apos;) + 1)
+        if (!search) {
+            return {}
+        }
+        return JSON.parse(&apos;{&quot;&apos; + decodeURIComponent(search).replace(/&quot;/g, &apos;\\&quot;&apos;).replace(/&amp;/g, &apos;&quot;,&quot;&apos;).replace(/=/g, &apos;&quot;:&quot;&apos;) + &apos;&quot;}&apos;)
+    },
+    /**
+    * @desc 函数防抖 
+    * 与throttle不同的是，debounce保证一个函数在多少毫秒内不再被触发，只会执行一次，
+    * 要么在第一次调用return的防抖函数时执行，要么在延迟指定毫秒后调用。
+    * @example 适用场景：如在线编辑的自动存储防抖。
+    * @param  {Number}   delay         0或者更大的毫秒数。 对于事件回调，大约100或250毫秒（或更高）的延迟是最有用的。
+    * @param  {Boolean}  atBegin       可选，默认为false。
+    *                                  如果`atBegin`为false或未传入，回调函数则在第一次调用return的防抖函数后延迟指定毫秒调用。
+                                        如果`atBegin`为true，回调函数则在第一次调用return的防抖函数时直接执行
+    * @param  {Function} callback      延迟毫秒后执行的函数。`this`上下文和所有参数都是按原样传递的，
+    *                                  执行去抖动功能时，，调用`callback`。
+    *
+    * @return {Function} 新的防抖函数。
+    */
+    var throttle = require(&apos;./throttle&apos;);
+    function debounce(delay, atBegin, callback) {
+        return callback === undefined ? throttle(delay, atBegin, false) : throttle(delay, callback, atBegin !== false);
+    }
+};
+</code></pre>
+                      
+
+                        
+                          <div class="page-reward">
+                            <a href="javascript:;" class="page-reward-btn tooltip-top">
+                              <div class="tooltip tooltip-east">
+                                <span class="tooltip-item">
+                                  赏
+                                </span>
+                                <span class="tooltip-content">
+                                  <span class="tooltip-text">
+                                    <span class="tooltip-inner">
+                                      <p class="reward-p">
+                                        <i class="icon icon-quo-left"></i>
+                                        谢谢你请我吃糖果
+                                          <i class="icon icon-quo-right"></i>
+                                      </p>
+                                      <div class="reward-box">
+                                        
+                                            
+                                              <div class="reward-box-item">
+                                                <img class="reward-img" src="/img/weixin.png">
+                                                <span class="reward-type">微信打赏</span>
+                                              </div>
+                                              
+                                      </div>
+                                    </span>
+                                  </span>
+                                </span>
+                              </div>
+                            </a>
+                          </div>
+                          
+        </div>
+        <div class="article-info article-info-index">
+          
+              
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -176,59 +463,107 @@
 		</ul>
 	</div>
 
-          
+                
 
+                  
+
+                      
+                        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/12/18/前端积累/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+                          
+                            <div class="clearfix"></div>
+        </div>
   </div>
 </article>
+
   
+<nav id="article-nav">
+  
+  
+    <a href="/2017/12/17/my-first-blog/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MyFirstBlog</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/17/my-first-blog/" class="archive-article-date">
-  	<time datetime="2017-12-17T10:02:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-17</time>
-</a>
+      <aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/17/my-first-blog/">MyFirstBlog</a>
-    </h1>
-  
+        
+        
+    </div>
+</aside>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
+        
           
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+                
 
-    
+                      
 
+                            
 
+                                
+                                      
           </div>
         </div>
       </div>
@@ -249,8 +584,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
