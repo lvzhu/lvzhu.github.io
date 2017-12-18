@@ -17,7 +17,11 @@
 <meta property="og:description" content="刚刚结束了加班忙碌的日子，总结一下最近在工作中遇到的问题，主要记录一下解决的方法，避免再走弯路。。。">
 <meta property="og:image" content="http://yoursite.com/2017/12/18/小技巧/font1.jpg">
 <meta property="og:image" content="http://yoursite.com/2017/12/18/小技巧/font2.png">
-<meta property="og:updated_time" content="2017-12-18T08:57:37.510Z">
+<meta property="og:image" content="http://yoursite.com/2017/12/18/小技巧/templ1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/18/小技巧/templ2.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/18/小技巧/tabtmpl.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/18/小技巧/input.png">
+<meta property="og:updated_time" content="2017-12-18T11:05:28.569Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小技巧">
 <meta name="twitter:description" content="刚刚结束了加班忙碌的日子，总结一下最近在工作中遇到的问题，主要记录一下解决的方法，避免再走弯路。。。">
@@ -164,8 +168,45 @@
       
         <div class="article-entry" itemprop="articleBody">
           
-                    <p>刚刚结束了加班忙碌的日子，总结一下最近在工作中遇到的问题，主要记录一下解决的方法，避免再走弯路。。。<br><a id="more"></a><br>一、特殊字体的使用：<br>首先<br><img src="/2017/12/18/小技巧/font1.jpg" alt="lbxx"><br>其次<br><img src="/2017/12/18/小技巧/font2.png" alt="lbxx"></p>
-<p>二、模板的使用</p>
+                    <p>刚刚结束了加班忙碌的日子，总结一下最近在工作中遇到的问题，主要记录一下解决的方法，避免再走弯路。。。<br><a id="more"></a><br>一、特殊字体的使用：<br>首先<br><img src="/2017/12/18/小技巧/font1.jpg" alt="font"><br>其次<br><img src="/2017/12/18/小技巧/font2.png" alt="font"></p>
+<p>二、模板(template.js)的使用:<br>适用于动态添加模块，编写一个tmpl,根据不同数据渲染出不同html。在单页面应用，对页面的无刷新有了更高的要求，后端提供JSON数据，模版引擎可以方便的渲染一个视图。而不是吃力的使用 jQeury 去拼接一个DOM。执行速度、可精确定位异常模板所在语句。<br><img src="/2017/12/18/小技巧/templ1.png" alt="templ"></p>
+<p><img src="/2017/12/18/小技巧/templ2.png" alt="templ"></p>
+<p><img src="/2017/12/18/小技巧/tabtmpl.png" alt="templ"></p>
+<p>模板的辅助方法：<br>使用template.helper(name,callback)注册公用辅助方法.</p>
+<p>例如：<br>    /**</p>
+<pre><code> * formatSeconds 将秒转换成时分秒
+ * @param  {[String]} value [秒]
+ * @return {[String]} 格式化后的时分秒
+ */
+template.helper(&apos;formatSeconds&apos;, function (value) {
+    if (Boolean(value)) {
+        var theTime = parseInt(value, 10),// 秒
+            theTime1 = 0,// 分
+            theTime2 = 0;// 小时
+        if (theTime &gt; 60) {
+            theTime1 = parseInt(theTime / 60, 10);
+            theTime = parseInt(theTime % 60, 10);
+            if (theTime1 &gt; 60) {
+                theTime2 = parseInt(theTime1 / 60, 10);
+                theTime1 = parseInt(theTime1 % 60, 10);
+            }
+        }
+        var result = &quot;&quot; + parseInt(theTime, 10) + &quot;秒&quot;;
+        if (theTime1 &gt; 0) {
+            result = &quot;&quot; + parseInt(theTime1, 10) + &quot;分&quot; + result;
+        }
+        if (theTime2 &gt; 0) {
+            result = &quot;&quot; + parseInt(theTime2, 10) + &quot;小时&quot; + result;
+        }
+        return result;
+    } else {
+        return &apos;--&apos;;
+    }
+});
+</code></pre><p>三、隐藏域的使用<br>结合form表单，便于数据序列化提交(编辑、注册)。<br><img src="/2017/12/18/小技巧/input.png" alt="隐藏域"></p>
+<p>var params = {<br>                person: $(“#personForm”).serializeObject(),   //表单序列化<br>                baseinfo: $(“#caseForm”).serializeObject()<br>            };<br>/<em>*
+</em>form表单中的带有name的标签直接转JSON<br>*/<br>    $.fn.serializeObject = function () {<br>        var o = {};<br>        var a = this.serializeArray();<br>        $.each(a, function () {<br>            if (o[this.name] !== undefined) {<br>                if (!o[this.name].push) {<br>                    o[this.name] = [o[this.name]];<br>                }<br>                o[this.name].push(this.value || ‘’);<br>            } else {<br>                o[this.name] = this.value || ‘’;<br>            }<br>        });<br>        return o;<br>    };</p>
+<p>四、请求接口的参数不能是数组/对象的形式，必须转为字符串形式：<br>    JSON.stringify(数组/对象)。<br>    例如:<br>        var params = {<br>                    person: $(“#personForm”).serializeObject(),<br>                    baseinfo: $(“#caseForm”).serializeObject()<br>                };<br>        var param = {“voiceprintInfo”: JSON.stringify(params)};</p>
 
                       
 
