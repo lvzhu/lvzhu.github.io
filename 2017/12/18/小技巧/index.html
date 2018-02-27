@@ -21,7 +21,7 @@
 <meta property="og:image" content="http://yoursite.com/2017/12/18/小技巧/templ2.png">
 <meta property="og:image" content="http://yoursite.com/2017/12/18/小技巧/tabtmpl.png">
 <meta property="og:image" content="http://yoursite.com/2017/12/18/小技巧/input.png">
-<meta property="og:updated_time" content="2017-12-18T11:05:28.569Z">
+<meta property="og:updated_time" content="2018-01-21T06:26:07.319Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小技巧">
 <meta name="twitter:description" content="刚刚结束了加班忙碌的日子，总结一下最近在工作中遇到的问题，主要记录一下解决的方法，避免再走弯路。。。">
@@ -207,7 +207,13 @@ template.helper(&apos;formatSeconds&apos;, function (value) {
 <p>var params = {<br>                person: $(“#personForm”).serializeObject(),   //表单序列化<br>                baseinfo: $(“#caseForm”).serializeObject()<br>            };<br>/<em>*
 </em>form表单中的带有name的标签直接转JSON<br>*/<br>    $.fn.serializeObject = function () {<br>        var o = {};<br>        var a = this.serializeArray();<br>        $.each(a, function () {<br>            if (o[this.name] !== undefined) {<br>                if (!o[this.name].push) {<br>                    o[this.name] = [o[this.name]];<br>                }<br>                o[this.name].push(this.value || ‘’);<br>            } else {<br>                o[this.name] = this.value || ‘’;<br>            }<br>        });<br>        return o;<br>    };</p>
 <p>四、请求接口的参数不能是数组/对象的形式，必须转为字符串形式：<br>    JSON.stringify(数组/对象)。<br>    例如:<br>        var params = {<br>                    person: $(“#personForm”).serializeObject(),<br>                    baseinfo: $(“#caseForm”).serializeObject()<br>                };<br>        var param = {“voiceprintInfo”: JSON.stringify(params)};</p>
-
+<p>五、深度复制，改变数组指向（避免改变原数组内的值）<br>    写法：var newArr = $.extend({},’oldArr’);   //oldArr是指被复制的数组<br>    列如：<br>    var oldArr = [{name:你好,flag:true},{name:谢谢,flag:true}];<br>    现在有个新的空数组需要复制oldArr数组里的第一个对象内容，且把flag改为false，并且保证oldArr里的数据内容不被改变。<br>    var newArr = $.extend({},oldArr[0]);<br>        newArr.flag =false;</p>
+<p>六、当从后台取到的数据格式不能满足前端展示的时候，要想办法重新组装数据（需要占位的添加占位，需要单独抽出来封装的单独抽出，该添加新的标志字段的添加新字段），<br>例如：单双轨时间轴。</p>
+<p>七、重复使用的代码块要注意做封装，通过控制参数的不用进行调用。简化代码，提升网站性能。</p>
+<p>八、页面跳转需要传递大量参数的时候，使用localStorage;<br>    var arra=[1,2,3,4];<br>    localStorage.setItem(‘key’,JSON.stringify(arra));  //设置变量<br>    var read=JSON.parse(localStorage.getItem(‘key’));  //获取变量值<br>    console.log(read,read.length); </p>
+<pre><code>localStorage.removeItem(&quot;name&quot;); //删除某个变量 
+localStorage.clear()    // 清空localhostorge   
+</code></pre>
                       
 
                         
@@ -320,6 +326,15 @@ template.helper(&apos;formatSeconds&apos;, function (value) {
   
 <nav id="article-nav">
   
+    <a href="/2017/12/23/Three-js学习笔记/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Three.js学习笔记
+        
+      </div>
+    </a>
+  
   
     <a href="/2017/12/18/前端积累/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">myUtils</div>
@@ -364,7 +379,7 @@ template.helper(&apos;formatSeconds&apos;, function (value) {
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 王潇
+    		&copy; 2018 王潇
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -439,11 +454,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">ES6笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">学习笔记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">学习</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">前端小记</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">高频知识点</a>
               </li>
             
             <div class="clearfix"></div>

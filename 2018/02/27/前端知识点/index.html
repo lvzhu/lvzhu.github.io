@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017 | xiaoxiao&#39;s blog</title>
+  <title>前端知识点 | xiaoxiao&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="xiaoxiao&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/archives/2017/index.html">
+  <meta name="description" content="前端高频知识点：">
+<meta name="keywords" content="高频知识点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端知识点">
+<meta property="og:url" content="http://yoursite.com/2018/02/27/前端知识点/index.html">
 <meta property="og:site_name" content="xiaoxiao&#39;s blog">
+<meta property="og:description" content="前端高频知识点：">
+<meta property="og:updated_time" content="2018-02-27T08:11:22.918Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xiaoxiao&#39;s blog">
+<meta name="twitter:title" content="前端知识点">
+<meta name="twitter:description" content="前端高频知识点：">
   
     <link rel="alternative" href="/atom.xml" title="xiaoxiao&#39;s blog" type="application/atom+xml">
   
@@ -135,176 +140,271 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-前端知识点" class="article article-type-post "
+  itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      前端知识点
+    </h1>
+  
+
+          
+            <a href="/2018/02/27/前端知识点/" class="archive-article-date">
+  	<time datetime="2018-02-27T02:23:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-27</time>
+</a>
+              
+      </header>
       
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/23/Three-js学习笔记/" class="archive-article-date">
-  	<time datetime="2017-12-23T03:36:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/23/Three-js学习笔记/">Three.js学习笔记</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
+        <div class="article-entry" itemprop="articleBody">
           
+                    <pre><code>前端高频知识点：
+</code></pre>   <a id="more"></a>
+<p>   event.currentTarget，返回绑定事件的元素<br>   event.target，返回触发事件的元素<br>   原型：是为其他对象提供共享属性和方法的对象。</p>
+<p>   一、什么是函数节流？<br>   先说下背景。在前端开发中，有时会为页面绑定resize事件，或者为一个页面元素绑定拖拽事件（其核心就是绑定mousemove），这种事件有一个特点，就是用户不必特地捣乱，他在一个正常的操作中，都有可能在一个短的时间内触发非常多次事件绑定程序。而大家知道，DOM操作时很消耗性能的，这个时候，如果你为这些事件绑定一些操作DOM节点的操作的话，那就会引发大量的计算，在用户看来，页面可能就一时间没有响应，这个页面一下子变卡了变慢了。甚至在IE下，如果你绑定的resize事件进行较多DOM操作，其高频率可能直接就使得浏览器崩溃。<br>   怎么解决？函数节流就是一种办法。<br>   函数节流，简单地讲，就是让一个函数无法在很短的时间间隔内连续调用，只有当上一次函数执行后过了你规定的时间间隔，才能进行下一次该函数的调用。</p>
+<p>   函数节流的原理：<br>   函数节流的原理挺简单的，估计大家都想到了，那就是定时器。当我触发一个时间时，先setTimout让这个事件延迟一会再执行，如果在这个时间间隔内又触发了事件，那我们就clear掉原来的定时器，再setTimeout一个新的定时器延迟一会执行，就这样。</p>
+<p>   代码实现：<br>   /<em><br> 2      </em> 函数功能：函数节流<br> 3      <em> fn  需要调用的函数<br> 4      </em> delay  函数需要延迟处理的时间<br> 5      <em> mustRunDelay  超过该时间，函数一定会执行<br> 6      </em> <em>/<br> 7     var throttle = function (fn, delay, mustRunDelay) {<br> 8         var timer;  //使用闭包存储timer<br> 9         var t_start;<br>10         //闭包返回的函数<br>11         return function (val) {<br>12             var args = arguments, t_curr = +new Date();  //使用+new Date() 将字符串转换成数字<br>13             clearTimeout(timer);<br>14             if (!t_start) {  // 使用!t_start 如果t_start=undefined或者null 则为true<br>15                 t_start = t_curr;<br>16             }<br>17             if (t_curr - t_start &gt;= mustRunDelay) {<br>18                 fn.apply(null, args);<br>19                 t_start = t_curr;<br>20             } else {<br>21                 timer = setTimeout(function () {<br>22                     fn.apply(null, args);<br>23                 }, delay);<br>24             }<br>25         }<br>26     };<br>27<br>28  /</em>使用方法*/<br>29     var throttle1 = throttle(fn, 500, 4000);<br>30     //在该需要调用的函数内部调用此函数<br>31     throttle1(val); //此处传人的参数为以上fn需要传人的参数</p>
+<p>   // 简单的去抖函数<br>  //  去抖相比较节流函数要稍微简单一点，去抖是让函数延迟执行，而节流比去抖多了一个在一定时间内必须要执行一次<br>    function debounce(fn, delay) {<br>        // 持久化一个定时器 timer<br>        let timer = null;<br>        // 闭包函数可以访问 timer<br>        return function() {<br>            // 通过 ‘this’ 和 ‘arguments’<br>            // 获得函数的作用域和参数<br>            let context = this;<br>            let args = arguments;<br>            // 如果事件被触发，清除 timer 并重新开始计时<br>            clearTimeout(timer);<br>            timer = setTimeout(function() {<br>                fn.apply(context, args);<br>            }, delay);<br>        }<br>    }</p>
+<p>//    简单的节流函数<br>//    好比一台自动的饮料机，按拿铁按钮，在出饮料的过程中，不管按多少这个按钮，都不会连续出饮料，中间按钮的响应会被忽略，必须要等这一杯的容量全部出完之后，再按拿铁按钮才会出下一杯。所以我们理解节流函数就是每隔一段时间执行一次函数。不用一动就执行，减少消耗。<br>    function throttle(func, delay, time){</p>
+<pre><code>    var timeout,
+        startTime = +Date.now();
+    return function(){
+        var context = this,
+            args = arguments,
+            curTime = +Date.now();
+        clearTimeout(timeout);
+        // 达到了最长触发时间
+        if(curTime - startTime &gt;= time){
+            func.apply(context, args);
+            startTime = curTime;
+        }else{
+            // 没达到最长触发时间，重新设定定时器
+            timeout = setTimeout(function(){
+                func.apply(context, args);
+            }, delay);
+        }
+    }
+}
+
+二、web端cookie的设置和获取方法
+
+
+//写cookie
+function setCookie(name,value)
+{
+var Days = 30;
+var exp = new Date();
+exp.setTime(exp.getTime() + Days*24*60*60*1000);
+document.cookie = name + &quot;=&quot;+ escape (value) + &quot;;expires=&quot; + exp.toGMTString();
+}
+//读取cookie
+function getCookie(name)
+{
+var arr,reg=new RegExp(&quot;(^| )&quot;+name+&quot;=([^;]*)(;|$)&quot;);
+if(arr=document.cookie.match(reg))
+return unescape(arr[2]);
+else
+return null;
+}
+//删除cookie
+function delCookie(name)
+{
+var exp = new Date();
+exp.setTime(exp.getTime() - 1);
+var cval=getCookie(name);
+if(cval!=null)
+document.cookie= name + &quot;=&quot;+cval+&quot;;expires=&quot;+exp.toGMTString();
+}
+
+三、Javascript中，有一个函数，执行时对象查找时，永远不会去查找原型，这个函数是？
+
+hasOwnProperty
+
+javaScript中hasOwnProperty函数方法是返回一个布尔值，指出一个对象是否具有指定名称的属性。此方法无法检查该对象的原型链中是否具有该属性；该属性必须是对象本身的一个成员。
+使用方法：
+object.hasOwnProperty(proName)
+其中参数object是必选项。一个对象的实例。
+proName是必选项。一个属性名称的字符串值。
+
+如果 object 具有指定名称的属性，那么JavaScript中hasOwnProperty函数方法返回 true，反之则返回 false。
+
+四、js延迟加载的方式有哪些？
+
+defer和async、动态创建DOM方式（用得最多）、按需异步载入js
+
+五、如何解决跨域问题?
+
+ jsonp、 iframe、window.name、window.postMessage、服务器上设置代理页面。
+
+ 六、那些操作会造成内存泄漏？
+    内存泄漏指任何对象在您不再拥有或需要它之后仍然存在。
+    垃圾回收器定期扫描对象，并计算引用了每个对象的其他对象的数量。如果一个对象的引用数量为 0（没有其他对象引用过该对象），或对该对象的惟一引用是循环的，那么该对象的内存即可回收。
+
+    setTimeout 的第一个参数使用字符串而非函数的话，会引发内存泄漏。
+    闭包、控制台日志、循环（在两个对象彼此引用且彼此保留时，就会产生一个循环）
+
+七、如何将浮点数点左边的数每三位添加一个逗号，如12000000.11转化为『12,000,000.11』
+
+function commafy(num){
+  return num &amp;&amp; num
+      .toString()
+      .replace(/(\d)(?=(\d{3})+\.)/g, function($1, $2){
+          return $2 + &apos;,&apos;;
+      });
+</code></pre><p>  }</p>
+
+                      
+
+                        
+                          <div class="page-reward">
+                            <a href="javascript:;" class="page-reward-btn tooltip-top">
+                              <div class="tooltip tooltip-east">
+                                <span class="tooltip-item">
+                                  赏
+                                </span>
+                                <span class="tooltip-content">
+                                  <span class="tooltip-text">
+                                    <span class="tooltip-inner">
+                                      <p class="reward-p">
+                                        <i class="icon icon-quo-left"></i>
+                                        谢谢你请我吃糖果
+                                          <i class="icon icon-quo-right"></i>
+                                      </p>
+                                      <div class="reward-box">
+                                        
+                                            
+                                              <div class="reward-box-item">
+                                                <img class="reward-img" src="/img/weixin.png">
+                                                <span class="reward-type">微信打赏</span>
+                                              </div>
+                                              
+                                      </div>
+                                    </span>
+                                  </span>
+                                </span>
+                              </div>
+                            </a>
+                          </div>
+                          
+        </div>
+        <div class="article-info article-info-index">
+          
+              
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">高频知识点</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+                
 
+                  
+
+                      
+                        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/02/27/前端知识点/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+                          
+                            <div class="clearfix"></div>
+        </div>
   </div>
 </article>
+
   
+<nav id="article-nav">
+  
+  
+    <a href="/2018/01/31/ES6学习笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ES6学习笔记</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/18/小技巧/" class="archive-article-date">
-  	<time datetime="2017-12-18T08:41:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-18</time>
-</a>
+      <aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/18/小技巧/">小技巧</a>
-    </h1>
-  
+        
+        
+    </div>
+</aside>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">前端小记</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/18/前端积累/" class="archive-article-date">
-  	<time datetime="2017-12-18T07:32:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/18/前端积累/">myUtils</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">前端小记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
+        
           
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/17/my-first-blog/" class="archive-article-date">
-  	<time datetime="2017-12-17T10:02:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/17/my-first-blog/">MyFirstBlog</a>
-    </h1>
-  
+                
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
+                      
 
-          
+                            
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-
-
+                                
+                                      
           </div>
         </div>
       </div>
@@ -325,8 +425,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

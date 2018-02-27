@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017 | xiaoxiao&#39;s blog</title>
+  <title>Three.js学习笔记 | xiaoxiao&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="xiaoxiao&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/archives/2017/index.html">
+  <meta name="description" content="又到周末了，被骗来加班，结果一个都没来。反正来都来了，继续学习自己想学的东西吧。">
+<meta name="keywords" content="学习笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Three.js学习笔记">
+<meta property="og:url" content="http://yoursite.com/2017/12/23/Three-js学习笔记/index.html">
 <meta property="og:site_name" content="xiaoxiao&#39;s blog">
+<meta property="og:description" content="又到周末了，被骗来加班，结果一个都没来。反正来都来了，继续学习自己想学的东西吧。">
+<meta property="og:updated_time" content="2017-12-23T04:24:47.185Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xiaoxiao&#39;s blog">
+<meta name="twitter:title" content="Three.js学习笔记">
+<meta name="twitter:description" content="又到周末了，被骗来加班，结果一个都没来。反正来都来了，继续学习自己想学的东西吧。">
   
     <link rel="alternative" href="/atom.xml" title="xiaoxiao&#39;s blog" type="application/atom+xml">
   
@@ -135,36 +140,143 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Three-js学习笔记" class="article article-type-post "
+  itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/23/Three-js学习笔记/" class="archive-article-date">
-  	<time datetime="2017-12-23T03:36:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-23</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/23/Three-js学习笔记/">Three.js学习笔记</a>
+    <h1 class="article-title" itemprop="name">
+      Three.js学习笔记
     </h1>
   
 
-        <div class="article-info info-on-right">
           
+            <a href="/2017/12/23/Three-js学习笔记/" class="archive-article-date">
+  	<time datetime="2017-12-23T03:36:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-23</time>
+</a>
+              
+      </header>
+      
+        <div class="article-entry" itemprop="articleBody">
+          
+                    <p>又到周末了，被骗来加班，结果一个都没来。反正来都来了，继续学习自己想学的东西吧。<br><a id="more"></a><br>webGL可以让我们在canvas上实现3D效果。而three.js是一款webGL框架，由于其易用性被广泛应用。如果你要学习webGL，抛弃那些复杂的原生接口从这款框架入手是一个不错的选择。在这篇文章中，将以一个简单的demo为例，阐述three.js的基本配置方法。学会如何在浏览器中绘制一个立体图形！</p>
+<p>核心的五步：<br>1.设置three.js渲染器</p>
+<p>2.设置摄像机camera</p>
+<p>3.设置场景scene</p>
+<p>4.设置光源light</p>
+<p>5.设置物体object</p>
+<p>一.设置three.js渲染器<br>三维空间里的物体映射到二维平面的过程被称为三维渲染。 一般来说我们都把进行渲染操作的软件叫做渲染器。 具体来说要进行下面这些处理。</p>
+<p>(0) 声明全局变量（对象）；</p>
+<p>(1) 获取画布「canvas-frame」的高宽；</p>
+<p>(2) 生成渲染器对象（属性：抗锯齿效果为设置有效）；</p>
+<p>(3) 指定渲染器的高宽（和画布框大小一致）；</p>
+<p>(4) 追加 【canvas】 元素到 【canvas3d】 元素中；</p>
+<p>(5) 设置渲染器的清除色(clearColor)。</p>
+<p>//开启Three.js渲染器<br>var renderer;//声明全局变量（对象）<br>function initThree() {<br>   width = document.getElementById(‘canvas3d’).clientWidth;//获取画布「canvas3d」的宽<br>   height = document.getElementById(‘canvas3d’).clientHeight;//获取画布「canvas3d」的高<br>   renderer=new THREE.WebGLRenderer({antialias:true});//生成渲染器对象（属性：抗锯齿效果为设置有效）<br>   renderer.setSize(width, height );//指定渲染器的高宽（和画布框大小一致）<br>   document.getElementById(‘canvas3d’).appendChild(renderer.domElement);//追加 【canvas】 元素到 【canvas3d】 元素中。<br>   renderer.setClearColorHex(0xFFFFFF, 1.0);//设置canvas背景色(clearColor)<br>}</p>
+<p>二.设置摄像机camera<br>OpenGL（WebGL）中、三维空间中的物体投影到二维空间的方式中，存在透视投影和正投影两种相机。 透视投影就是、从视点开始越近的物体越大、远处的物体绘制的较小的一种方式、和日常生活中我们看物体的方式是一致的。 正投影就是不管物体和视点距离，都按照统一的大小进行绘制、在建筑和设计等领域需要从各个角度来绘制物体，因此这种投影被广泛应用。在 Three.js 也能够指定透视投影和正投影两种方式的相机。 本文按照以下的步骤设置透视投影方式。</p>
+<p>(0) 声明全局的变量（对象）；</p>
+<p>(1) 设置透视投影的相机；</p>
+<p>(2) 设置相机的位置坐标；</p>
+<p>(3) 设置相机的上为「z」轴方向；</p>
+<p>(4) 设置视野的中心坐标。</p>
+<p> 　　　　　　　 //设置相机<br>              var camera;<br>              function initCamera() {<br>                camera = new THREE.PerspectiveCamera( 45, width / height , 1 , 5000 );//设置透视投影的相机,默认情况下相机的上方向为Y轴，右方向为X轴，沿着Z轴朝里（视野角：fov 纵横比：aspect 相机离视体积最近的距离：near 相机离视体积最远的距离：far）<br>                camera.position.x = 0;//设置相机的位置坐标<br>                camera.position.y = 50;//设置相机的位置坐标<br>                camera.position.z = 100;//设置相机的位置坐标<br>                camera.up.x = 0;//设置相机的上为「x」轴方向<br>                camera.up.y = 1;//设置相机的上为「y」轴方向<br>                camera.up.z = 0;//设置相机的上为「z」轴方向<br>                camera.lookAt( {x:0, y:0, z:0 } );//设置视野的中心坐标<br>              }</p>
+<p>三.设置场景scene<br>场景就是一个三维空间。 用 [Scene] 类声明一个叫 [scene] 的对象。</p>
+<p>　　　　　　　　//设置场景<br>              var scene;<br>              function initScene() {<br>                scene = new THREE.Scene();<br>              }</p>
+<p>四.设置光源light<br>OpenGL（WebGL）的三维空间中，存在点光源和聚光灯两种类型。 而且，作为点光源的一种特例还存在平行光源(无线远光源)。另外，作为光源的参数还可以进行 [环境光] 等设置。 作为对应， Three.js中可以设置 [点光源(Point Light)] [聚光灯(Spot Light)] [平行光源(Direction Light)]，和 [环境光(Ambient Light)]。 和OpenGL一样、在一个场景中可以设置多个光源。 基本上，都是环境光和其他几种光源进行组合。 如果不设置环境光，那么光线照射不到的面会变得过于黑暗。 本文中首先按照下面的步骤设置平行光源，在这之后还会追加环境光。</p>
+<p>(0) 声明全局变量(对象)</p>
+<p>(1) 设置平行光源</p>
+<p>(2) 设置光源向量</p>
+<p>(3) 追加光源到场景</p>
+<p>这里我们用「DirectionalLight」类声明一个叫 [light] 的对象来代表平行光源</p>
+<p> 　　　　　　　　//设置光源<br>              var light;<br>              function initLight() {<br>                light = new THREE.DirectionalLight(0xff0000, 1.0, 0);//设置平行光源<br>                light.position.set( 200, 200, 200 );//设置光源向量<br>                scene.add(light);// 追加光源到场景<br>              }</p>
+<p>5.设置物体object<br>   这里，声明一个球模型</p>
+<p> 　　　　　　　　//设置物体<br>              var sphere;<br>              function initObject(){<br>                sphere = new THREE.Mesh(<br>                     new THREE.SphereGeometry(20,20),                //width,height,depth<br>                     new THREE.MeshLambertMaterial({color: 0xff0000}) //材质设定<br>                );<br>                scene.add(sphere);<br>                sphere.position.set(0,0,0);<br>              }</p>
+<p>最后，我们写一个主函数执行以上五步：<br>　　　　　　　　//执行<br>              function threeStart() {<br>                initThree();<br>                initCamera();<br>                initScene();<br>                initLight();<br>                initObject();<br>                renderer.clear();<br>                renderer.render(scene, camera);<br>              }</p>
+<p>完整代码：<br>    &lt;!DOCTYPE html&gt;<br>    <html><br>        <head><br>            <meta charset="UTF-8"><br>            <title>lesson1-by-shawn.xie</title><br>            <!--引入Three.js--><br>            <script src="Three.js"></script><br>            <script type="text/javascript"><br>                //开启Three.js渲染器<br>                var renderer;//声明全局变量（对象）<br>                function initThree() {<br>                    width = document.getElementById(‘canvas3d’).clientWidth;//获取画布「canvas3d」的宽<br>                    height = document.getElementById(‘canvas3d’).clientHeight;//获取画布「canvas3d」的高<br>                    renderer=new THREE.WebGLRenderer({antialias:true});//生成渲染器对象（属性：抗锯齿效果为设置有效）<br>                    renderer.setSize(width, height );//指定渲染器的高宽（和画布框大小一致）<br>                    document.getElementById(‘canvas3d’).appendChild(renderer.domElement);//追加 【canvas】 元素到 【canvas3d】 元素中。<br>                    renderer.setClearColorHex(0xFFFFFF, 1.0);//设置canvas背景色(clearColor)<br>                }<br>                //设置相机<br>                var camera;<br>                function initCamera() {<br>                    camera = new THREE.PerspectiveCamera( 45, width / height , 1 , 5000 );//设置透视投影的相机,默认情况下相机的上方向为Y轴，右方向为X轴，沿着Z轴朝里（视野角：fov 纵横比：aspect 相机离视体积最近的距离：near 相机离视体积最远的距离：far）<br>                    camera.position.x = 0;//设置相机的位置坐标<br>                    camera.position.y = 50;//设置相机的位置坐标<br>                    camera.position.z = 100;//设置相机的位置坐标<br>                    camera.up.x = 0;//设置相机的上为「x」轴方向<br>                    camera.up.y = 1;//设置相机的上为「y」轴方向<br>                    camera.up.z = 0;//设置相机的上为「z」轴方向<br>                    camera.lookAt( {x:0, y:0, z:0 } );//设置视野的中心坐标<br>                }<br>                //设置场景<br>                var scene;<br>                function initScene() {<br>                    scene = new THREE.Scene();<br>                }</p>
+<pre><code>            //设置光源
+            var light;
+            function initLight() { 
+                light = new THREE.DirectionalLight(0xff0000, 1.0, 0);//设置平行光源
+                light.position.set( 200, 200, 200 );//设置光源向量
+                scene.add(light);// 追加光源到场景
+            }
+            //设置物体
+            var sphere;
+            function initObject(){  
+                sphere = new THREE.Mesh(
+                    new THREE.SphereGeometry(20,20),                //width,height,depth
+                    new THREE.MeshLambertMaterial({color: 0xff0000}) //材质设定
+                );
+                scene.add(sphere);
+                sphere.position.set(0,0,0);
+            }
+            //执行
+            function threeStart() {
+                initThree();
+                initCamera();
+                initScene();   
+                initLight();
+                initObject();
+                renderer.clear(); 
+                renderer.render(scene, camera);
+            }
+        &lt;/script&gt;
+        &lt;style type=&quot;text/css&quot;&gt;
+            div#canvas3d{
+                border: none;
+                cursor: move;
+                width: 1400px;
+                height: 600px;
+                background-color: #EEEEEE;
+                }
+        &lt;/style&gt;
+    &lt;/head&gt;
+
+    &lt;body onload=&apos;threeStart();&apos;&gt;
+        &lt;!--盛放canvas的容器--&gt;
+        &lt;div id=&quot;canvas3d&quot;&gt;&lt;/div&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre></script></head></html></p>
+                      
+
+                        
+                          <div class="page-reward">
+                            <a href="javascript:;" class="page-reward-btn tooltip-top">
+                              <div class="tooltip tooltip-east">
+                                <span class="tooltip-item">
+                                  赏
+                                </span>
+                                <span class="tooltip-content">
+                                  <span class="tooltip-text">
+                                    <span class="tooltip-inner">
+                                      <p class="reward-p">
+                                        <i class="icon icon-quo-left"></i>
+                                        谢谢你请我吃糖果
+                                          <i class="icon icon-quo-right"></i>
+                                      </p>
+                                      <div class="reward-box">
+                                        
+                                            
+                                              <div class="reward-box-item">
+                                                <img class="reward-img" src="/img/weixin.png">
+                                                <span class="reward-type">微信打赏</span>
+                                              </div>
+                                              
+                                      </div>
+                                    </span>
+                                  </span>
+                                </span>
+                              </div>
+                            </a>
+                          </div>
+                          
+        </div>
+        <div class="article-info article-info-index">
+          
+              
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -176,135 +288,116 @@
 		</ul>
 	</div>
 
-          
+                
 
+                  
+
+                      
+                        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/12/23/Three-js学习笔记/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+                          
+                            <div class="clearfix"></div>
+        </div>
   </div>
 </article>
+
   
+<nav id="article-nav">
+  
+    <a href="/2018/01/21/study/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          前端学习网址
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/12/18/小技巧/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">小技巧</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/18/小技巧/" class="archive-article-date">
-  	<time datetime="2017-12-18T08:41:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-18</time>
-</a>
+      <aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/18/小技巧/">小技巧</a>
-    </h1>
-  
+        
+        
+    </div>
+</aside>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">前端小记</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/18/前端积累/" class="archive-article-date">
-  	<time datetime="2017-12-18T07:32:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/18/前端积累/">myUtils</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">前端小记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
+        
           
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/17/my-first-blog/" class="archive-article-date">
-  	<time datetime="2017-12-17T10:02:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/17/my-first-blog/">MyFirstBlog</a>
-    </h1>
-  
+                
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
+                      
 
-          
+                            
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-
-
+                                
+                                      
           </div>
         </div>
       </div>
@@ -325,8 +418,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

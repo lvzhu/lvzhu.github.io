@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017 | xiaoxiao&#39;s blog</title>
+  <title>ES6学习笔记 | xiaoxiao&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="xiaoxiao&#39;s blog">
-<meta property="og:url" content="http://yoursite.com/archives/2017/index.html">
+  <meta name="description" content="ES6学习总结。">
+<meta name="keywords" content="ES6笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6学习笔记">
+<meta property="og:url" content="http://yoursite.com/2018/01/31/ES6学习笔记/index.html">
 <meta property="og:site_name" content="xiaoxiao&#39;s blog">
+<meta property="og:description" content="ES6学习总结。">
+<meta property="og:updated_time" content="2018-02-27T02:28:15.215Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xiaoxiao&#39;s blog">
+<meta name="twitter:title" content="ES6学习笔记">
+<meta name="twitter:description" content="ES6学习总结。">
   
     <link rel="alternative" href="/atom.xml" title="xiaoxiao&#39;s blog" type="application/atom+xml">
   
@@ -135,176 +140,205 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-ES6学习笔记" class="article article-type-post "
+  itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ES6学习笔记
+    </h1>
+  
+
+          
+            <a href="/2018/01/31/ES6学习笔记/" class="archive-article-date">
+  	<time datetime="2018-01-31T01:11:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-01-31</time>
+</a>
+              
+      </header>
       
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/23/Three-js学习笔记/" class="archive-article-date">
-  	<time datetime="2017-12-23T03:36:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/23/Three-js学习笔记/">Three.js学习笔记</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
+        <div class="article-entry" itemprop="articleBody">
           
+                    <p>ES6学习总结。<br><a id="more"></a></p>
+<p>一、函数的扩展</p>
+<p>ES6 允许为函数的参数设置默认值，即直接写在参数定义的后面。</p>
+<p>function log(x, y = ‘World’) {<br>  console.log(x, y);<br>}</p>
+<p>log(‘Hello’) // Hello World<br>log(‘Hello’, ‘China’) // Hello China<br>log(‘Hello’, ‘’) // Hello</p>
+<p>function Point(x = 0, y = 0) {<br>  this.x = x;<br>  this.y = y;<br>}</p>
+<p>const p = new Point();<br>p // { x: 0, y: 0 }</p>
+<p>参数变量是默认声明的，所以不能用let或const再次声明。</p>
+<p>function foo(x = 5) {<br>  let x = 1; // error<br>  const x = 2; // error<br>}</p>
+<p>使用参数默认值时，函数不能有同名参数。<br>// 报错<br>function foo(x, x, y = 1) {<br>  // …<br>}<br>// SyntaxError: Duplicate parameter name not allowed in this context</p>
+<p>另外，一个容易忽略的地方是，参数默认值不是传值的，而是每次都重新计算默认值表达式的值。也就是说，参数默认值是惰性求值的。<br>let x = 99;<br>function foo(p = x + 1) {<br>  console.log(p);<br>}<br>foo() // 100<br>x = 100;<br>foo() // 101<br>上面代码中，参数p的默认值是x + 1。这时，每次调用函数foo，都会重新计算x + 1，而不是默认p等于 100。</p>
+<p>与解构赋值默认值结合使用<br>参数默认值可以与解构赋值的默认值，结合起来使用。</p>
+<p>function foo({x, y = 5}) {<br>  console.log(x, y);<br>}</p>
+<p>foo({}) // undefined 5<br>foo({x: 1}) // 1 5<br>foo({x: 1, y: 2}) // 1 2<br>foo() // TypeError: Cannot read property ‘x’ of undefined</p>
+<p>函数的 length 属性<br>指定了默认值以后，函数的length属性，将返回没有指定默认值的参数个数。也就是说，指定了默认值后，length属性将失真。</p>
+<p>(function (a) {}).length // 1<br>(function (a = 5) {}).length // 0<br>(function (a, b, c = 5) {}).length // 2<br>上面代码中，length属性的返回值，等于函数的参数个数减去指定了默认值的参数个数。比如，上面最后一个函数，定义了 3 个参数，其中有一个参数c指定了默认值，因此length属性等于3减去1，最后得到2。</p>
+<p>这是因为length属性的含义是，该函数预期传入的参数个数。某个参数指定默认值以后，预期传入的参数个数就不包括这个参数了。同理，后文的 rest 参数也不会计入length属性。</p>
+<p>如果设置了默认值的参数不是尾参数，那么length属性也不再计入后面的参数了。</p>
+<p>(function (a = 0, b, c) {}).length // 0<br>(function (a, b = 1, c) {}).length // 1</p>
+
+                      
+
+                        
+                          <div class="page-reward">
+                            <a href="javascript:;" class="page-reward-btn tooltip-top">
+                              <div class="tooltip tooltip-east">
+                                <span class="tooltip-item">
+                                  赏
+                                </span>
+                                <span class="tooltip-content">
+                                  <span class="tooltip-text">
+                                    <span class="tooltip-inner">
+                                      <p class="reward-p">
+                                        <i class="icon icon-quo-left"></i>
+                                        谢谢你请我吃糖果
+                                          <i class="icon icon-quo-right"></i>
+                                      </p>
+                                      <div class="reward-box">
+                                        
+                                            
+                                              <div class="reward-box-item">
+                                                <img class="reward-img" src="/img/weixin.png">
+                                                <span class="reward-type">微信打赏</span>
+                                              </div>
+                                              
+                                      </div>
+                                    </span>
+                                  </span>
+                                </span>
+                              </div>
+                            </a>
+                          </div>
+                          
+        </div>
+        <div class="article-info article-info-index">
+          
+              
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">学习笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">ES6笔记</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+                
 
+                  
+
+                      
+                        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/01/31/ES6学习笔记/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+                          
+                            <div class="clearfix"></div>
+        </div>
   </div>
 </article>
+
   
+<nav id="article-nav">
+  
+    <a href="/2018/02/27/前端知识点/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          前端知识点
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/21/study/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">前端学习网址</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/18/小技巧/" class="archive-article-date">
-  	<time datetime="2017-12-18T08:41:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-18</time>
-</a>
+      <aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/18/小技巧/">小技巧</a>
-    </h1>
-  
+        
+        
+    </div>
+</aside>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">前端小记</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/18/前端积累/" class="archive-article-date">
-  	<time datetime="2017-12-18T07:32:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/18/前端积累/">myUtils</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">前端小记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
+        
           
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/17/my-first-blog/" class="archive-article-date">
-  	<time datetime="2017-12-17T10:02:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-17</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/17/my-first-blog/">MyFirstBlog</a>
-    </h1>
-  
+                
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
-        		</li>
-      		
-		</ul>
-	</div>
+                      
 
-          
+                            
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-
-
+                                
+                                      
           </div>
         </div>
       </div>
@@ -325,8 +359,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
